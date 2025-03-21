@@ -1,9 +1,14 @@
-import { useState } from "react";
-import { StyleSheet, Image, Button, Text } from "react-native";
+import { GOOGLE_CLOUD_VISION_API_KEY } from "@/constants/SensitiveData";
 import * as ImagePicker from "expo-image-picker";
-import { View } from "@/components/Themed";
-
-const GOOGLE_CLOUD_VISION_API_KEY = "YOUR_API_KEY_HERE";
+import { useState } from "react";
+import {
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 export default function TabCameraScreen() {
   const [image, setImage] = useState<string | null>(null);
@@ -57,15 +62,19 @@ export default function TabCameraScreen() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            requests: [{
-              image: { content: base64Image },
-              features: [{ type: "TEXT_DETECTION" }],
-            }],
+            requests: [
+              {
+                image: { content: base64Image },
+                features: [{ type: "TEXT_DETECTION" }],
+              },
+            ],
           }),
         }
       );
       const data = await response.json();
-      setExtractedText(data.responses[0]?.fullTextAnnotation?.text || "No text detected");
+      setExtractedText(
+        data.responses[0]?.fullTextAnnotation?.text || "No text detected"
+      );
     } catch (error) {
       console.error("Error extracting text:", error);
       setExtractedText("Failed to extract text");
@@ -77,27 +86,38 @@ export default function TabCameraScreen() {
     const blob = await response.blob();
     return new Promise<string>((resolve) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result?.toString().split(",")[1] || "");
+      reader.onloadend = () =>
+        resolve(reader.result?.toString().split(",")[1] || "");
       reader.readAsDataURL(blob);
     });
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Camera</Text>
-      <Button title="Pick an image from gallery" onPress={pickImage} />
-      <Button title="Take a photo" onPress={takePhoto} />
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-      {extractedText ? <Text style={styles.text}>{extractedText}</Text> : null}
-    </View>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Tab Camera</Text>
+        <Button title="Pick an image from gallery" onPress={pickImage} />
+        <Button title="Take a photo" onPress={takePhoto} />
+        {image && <Image source={{ uri: image }} style={styles.image} />}
+        {extractedText ? (
+          <Text style={styles.text}>{extractedText}</Text>
+        ) : null}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    padding: 20,
   },
   title: {
     fontSize: 20,
@@ -115,5 +135,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     paddingHorizontal: 20,
+    color: "white",
   },
 });

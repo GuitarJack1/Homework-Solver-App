@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+#Sensitive Data
+constants/SensitiveData.ts
+
 # Expo
 .expo/
 dist/

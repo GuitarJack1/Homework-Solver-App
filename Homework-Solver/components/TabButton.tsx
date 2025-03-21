@@ -32,7 +32,7 @@ const TabButton = ({
       <Ionicons name="camera-sharp" size={Numbers.iconSize} {...props} />
     ),
     manual: (props: any) => (
-      <Ionicons name="people-sharp" size={Numbers.iconSize} {...props} />
+      <Ionicons name="pencil-sharp" size={Numbers.iconSize} {...props} />
     ),
   };
 

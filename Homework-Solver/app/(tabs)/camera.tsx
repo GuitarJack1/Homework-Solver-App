@@ -1,18 +1,22 @@
+import { View } from "@/components/Themed";
 import { GOOGLE_CLOUD_VISION_API_KEY } from "@/constants/SensitiveData";
 import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
+  ActivityIndicator,
   Button,
   Image,
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  TouchableOpacity,
 } from "react-native";
 
 export default function TabCameraScreen() {
   const [image, setImage] = useState<string | null>(null);
   const [extractedText, setExtractedText] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -30,7 +34,7 @@ export default function TabCameraScreen() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      extractText(result.assets[0].uri);
+      //extractText(result.assets[0].uri);
     }
   };
 
@@ -49,11 +53,13 @@ export default function TabCameraScreen() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      extractText(result.assets[0].uri);
+      //extractText(result.assets[0].uri);
     }
   };
 
   const extractText = async (imageUri: string) => {
+    setLoading(true);
+    setExtractedText("");
     try {
       const base64Image = await convertImageToBase64(imageUri);
       const response = await fetch(
@@ -75,10 +81,19 @@ export default function TabCameraScreen() {
       setExtractedText(
         data.responses[0]?.fullTextAnnotation?.text || "No text detected"
       );
+
+      router.push({
+        pathname: "/solutionModal",
+        params: {
+          extractedText:
+            data.responses[0]?.fullTextAnnotation?.text || "No text detected",
+        },
+      });
     } catch (error) {
       console.error("Error extracting text:", error);
       setExtractedText("Failed to extract text");
     }
+    setLoading(false);
   };
 
   const convertImageToBase64 = async (uri: string) => {
@@ -99,9 +114,17 @@ export default function TabCameraScreen() {
         <Button title="Pick an image from gallery" onPress={pickImage} />
         <Button title="Take a photo" onPress={takePhoto} />
         {image && <Image source={{ uri: image }} style={styles.image} />}
-        {extractedText ? (
-          <Text style={styles.text}>{extractedText}</Text>
+        {loading ? (
+          <ActivityIndicator size="large" color="white" style={styles.loader} />
         ) : null}
+        {image && (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => extractText(image)}
+          >
+            <Text style={styles.buttonText}>View Solution</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </ScrollView>
   );
@@ -136,5 +159,21 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingHorizontal: 20,
     color: "white",
+  },
+  loader: {
+    marginTop: 20,
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: "#007AFF",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

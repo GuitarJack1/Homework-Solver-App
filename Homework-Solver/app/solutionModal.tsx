@@ -1,39 +1,48 @@
-import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet } from "react-native";
-
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
+import {
+  findSolution,
+  processInput,
+  processSolution,
+} from "@/components/functions/getSolution";
+import { router, useLocalSearchParams } from "expo-router";
+import { useState } from "react";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function ModalScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/solutionModal.tsx" />
+  let { extractedText } = useLocalSearchParams<{ extractedText?: string }>();
+  const [solution, setSolution] = useState<string>("");
+  let [input, setInput] = useState<string>("");
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+  if (extractedText) {
+    let tempInput = processInput(extractedText);
+    setInput(tempInput);
+    setSolution(processSolution(findSolution(tempInput)));
+  }
+
+  return (
+    <View style={styles.modalView}>
+      <Text style={styles.text}>
+        {extractedText ? "Input: " + input : "Something went wrong"}
+      </Text>
+      <Text style={styles.text}>
+        {extractedText ? "Solution: " + solution : "Something went wrong"}
+      </Text>
+      <Button title="Close" onPress={() => router.back()} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  modalView: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 20,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  text: {
+    color: "white",
+    fontSize: 18,
+    textAlign: "center",
+    marginBottom: 20,
   },
 });

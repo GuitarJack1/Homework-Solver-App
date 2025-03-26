@@ -103,10 +103,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#4DA8DA",
     marginHorizontal: 4,
     opacity: 0.5,
+    top: -10,
   },
   activeDot: {
     opacity: 1,
     width: 40,
     height: 10,
+    top: -10,
   },
 });

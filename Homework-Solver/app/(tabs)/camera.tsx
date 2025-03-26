@@ -1,11 +1,12 @@
 import { View } from "@/components/Themed";
-import { GOOGLE_CLOUD_VISION_API_KEY } from "@/constants/SensitiveData";
+import { MATHPIX_API_KEY, MATHPIX_APP_ID } from "@/constants/SensitiveData";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
-  Button,
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -17,6 +18,14 @@ export default function TabCameraScreen() {
   const [image, setImage] = useState<string | null>(null);
   const [extractedText, setExtractedText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+
+  const uploadImage = async () => {
+    Alert.alert("Upload Image", "Choose an option", [
+      { text: "Take a photo", onPress: takePhoto },
+      { text: "Pick from gallery", onPress: pickImage },
+      { text: "Cancel", style: "cancel" },
+    ]);
+  };
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -34,7 +43,6 @@ export default function TabCameraScreen() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      //extractText(result.assets[0].uri);
     }
   };
 
@@ -53,74 +61,92 @@ export default function TabCameraScreen() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      //extractText(result.assets[0].uri);
     }
   };
 
-  const extractText = async (imageUri: string) => {
+  const extractMathText = async (imageUri: string): Promise<void> => {
     setLoading(true);
-    setExtractedText("");
     try {
-      const base64Image = await convertImageToBase64(imageUri);
-      const response = await fetch(
-        `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLE_CLOUD_VISION_API_KEY}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            requests: [
-              {
-                image: { content: base64Image },
-                features: [{ type: "TEXT_DETECTION" }],
-              },
-            ],
-          }),
-        }
-      );
-      const data = await response.json();
-      setExtractedText(
-        data.responses[0]?.fullTextAnnotation?.text || "No text detected"
+      // Resize and compress the image
+      const resizedImage = await manipulateAsync(
+        imageUri,
+        [{ resize: { width: 1024 } }], // Resize width to 1024px, maintaining aspect ratio
+        { compress: 0.7, format: SaveFormat.JPEG } // Compress to 70% quality
       );
 
-      router.push({
-        pathname: "/solutionModal",
-        params: {
-          extractedText:
-            data.responses[0]?.fullTextAnnotation?.text || "No text detected",
-        },
-      });
-    } catch (error) {
-      console.error("Error extracting text:", error);
-      setExtractedText("Failed to extract text");
-    }
-    setLoading(false);
-  };
-
-  const convertImageToBase64 = async (uri: string) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    return new Promise<string>((resolve) => {
+      // Fetch and convert the resized image to base64
+      const response = await fetch(resizedImage.uri);
+      const blob = await response.blob();
       const reader = new FileReader();
-      reader.onloadend = () =>
-        resolve(reader.result?.toString().split(",")[1] || "");
+
       reader.readAsDataURL(blob);
-    });
+      reader.onloadend = async () => {
+        const base64data = reader.result?.toString().split(",")[1];
+
+        if (!base64data) {
+          console.error("Failed to convert image to base64.");
+          return;
+        }
+
+        // Prepare the payload for the Mathpix API
+        const payload = {
+          src: `data:image/jpeg;base64,${base64data}`,
+          formats: ["text"],
+        };
+
+        // Send the request to Mathpix API
+        const mathpixResponse = await fetch("https://api.mathpix.com/v3/text", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            app_id: MATHPIX_APP_ID,
+            app_key: MATHPIX_API_KEY,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        // Parse and log the extracted text
+        const result = await mathpixResponse.json();
+
+        console.log(result.text);
+        setExtractedText(result.text);
+
+        router.push({
+          pathname: "/solutionModal",
+          params: {
+            extractedText: result.text,
+          },
+        });
+
+        setLoading(false);
+      };
+    } catch (error) {
+      console.error("Error extracting text from image:", error);
+      setLoading(false);
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <Text style={styles.title}>Tab Camera</Text>
-        <Button title="Pick an image from gallery" onPress={pickImage} />
-        <Button title="Take a photo" onPress={takePhoto} />
-        {image && <Image source={{ uri: image }} style={styles.image} />}
+        <TouchableOpacity style={styles.uploadBox} onPress={uploadImage}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.image} />
+          ) : (
+            <Text style={styles.uploadText}>Upload an Image</Text>
+          )}
+        </TouchableOpacity>
         {loading ? (
           <ActivityIndicator size="large" color="white" style={styles.loader} />
         ) : null}
+
+        <Text style={styles.uploadText}>{extractedText}</Text>
+
         {image && (
           <TouchableOpacity
             style={styles.button}
-            onPress={() => extractText(image)}
+            onPress={() => extractMathText(image)}
           >
             <Text style={styles.buttonText}>View Solution</Text>
           </TouchableOpacity>
@@ -147,18 +173,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
   },
+  uploadBox: {
+    width: 200,
+    height: 200,
+    backgroundColor: "#007AFF",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  uploadText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   image: {
     width: 200,
     height: 200,
-    marginTop: 20,
     borderRadius: 10,
-  },
-  text: {
-    marginTop: 20,
-    fontSize: 16,
-    textAlign: "center",
-    paddingHorizontal: 20,
-    color: "white",
   },
   loader: {
     marginTop: 20,

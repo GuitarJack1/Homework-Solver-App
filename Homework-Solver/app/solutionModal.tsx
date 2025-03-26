@@ -4,18 +4,16 @@ import {
   processSolution,
 } from "@/components/functions/getSolution";
 import { router, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function ModalScreen() {
   let { extractedText } = useLocalSearchParams<{ extractedText?: string }>();
-  const [solution, setSolution] = useState<string>("");
-  let [input, setInput] = useState<string>("");
+  let input;
+  let solution;
 
   if (extractedText) {
-    let tempInput = processInput(extractedText);
-    setInput(tempInput);
-    setSolution(processSolution(findSolution(tempInput)));
+    input = processInput(extractedText);
+    solution = processSolution(findSolution(input));
   }
 
   return (

@@ -1,5 +1,6 @@
 import { View } from "@/components/Themed";
 import { MATHPIX_API_KEY, MATHPIX_APP_ID } from "@/constants/SensitiveData";
+import { Ionicons } from "@expo/vector-icons";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
@@ -8,7 +9,6 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,8 +16,8 @@ import {
 
 export default function TabCameraScreen() {
   const [image, setImage] = useState<string | null>(null);
-  const [extractedText, setExtractedText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [extractedText, setExtractedText] = useState<string>("");
 
   const uploadImage = async () => {
     Alert.alert("Upload Image", "Choose an option", [
@@ -127,38 +127,52 @@ export default function TabCameraScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <View style={styles.overallContainer}>
       <View style={styles.container}>
-        <Text style={styles.title}>Tab Camera</Text>
+        <Image
+          source={require("@/assets/images/camera_page_badge_dark.png")}
+          style={styles.topImage}
+        />
+        <Text style={styles.uploadTitle}>Upload Image</Text>
         <TouchableOpacity style={styles.uploadBox} onPress={uploadImage}>
           {image ? (
             <Image source={{ uri: image }} style={styles.image} />
           ) : (
-            <Text style={styles.uploadText}>Upload an Image</Text>
+            <Ionicons name="cloud-upload-outline" size={50} color="#00114D" />
           )}
         </TouchableOpacity>
-        {loading ? (
-          <ActivityIndicator size="large" color="white" style={styles.loader} />
-        ) : null}
-
-        <Text style={styles.uploadText}>{extractedText}</Text>
 
         {image && (
           <TouchableOpacity
             style={styles.button}
             onPress={() => extractMathText(image)}
           >
-            <Text style={styles.buttonText}>View Solution</Text>
+            {loading ? (
+              <ActivityIndicator
+                size="large"
+                color="white"
+                style={styles.loader}
+              />
+            ) : (
+              <Text style={styles.buttonText}>SOLVE</Text>
+            )}
           </TouchableOpacity>
         )}
+        <Image
+          source={require("@/assets/images/bottom_ui_piece.png")}
+          style={styles.bottomImage}
+        />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
+  overallContainer: {
     flexGrow: 1,
+    backgroundColor: "#0B1523",
+    width: "100%",
+    padding: 0,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -166,46 +180,56 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    backgroundColor: "#0B1523",
+    width: "100%",
   },
-  title: {
-    fontSize: 20,
+  topImage: {
+    width: "90%",
+    top: 50,
+    height: 320,
+    position: "absolute",
+  },
+  bottomImage: {
+    width: 100,
+    height: 20,
+    position: "absolute",
+    bottom: 95,
+  },
+  uploadTitle: {
+    fontSize: 30,
+    color: "#6ecef2",
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 25,
+    marginTop: 240,
   },
   uploadBox: {
-    width: 200,
-    height: 200,
-    backgroundColor: "#007AFF",
+    width: 280,
+    height: 180,
+    backgroundColor: "#C4E2FF",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 15,
+    borderWidth: 4,
+    borderColor: "#3fb6dd",
     marginBottom: 20,
   },
-  uploadText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
   image: {
-    width: 200,
-    height: 200,
-    borderRadius: 10,
+    width: "100%",
+    height: "100%",
+    borderRadius: 15,
   },
-  loader: {
-    marginTop: 20,
-  },
+  loader: {},
   button: {
-    marginTop: 20,
-    backgroundColor: "#007AFF",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
+    width: 280,
+    backgroundColor: "#004E89",
+    paddingVertical: 12,
+    borderRadius: 20,
     alignItems: "center",
+    marginTop: 10,
   },
   buttonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });

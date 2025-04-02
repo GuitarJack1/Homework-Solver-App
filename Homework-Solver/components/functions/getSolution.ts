@@ -3,9 +3,11 @@ export function processSolution(input: string): string {
 }
 
 export function processInput(input: string): string {
+  input.replace("+", "plus");
+  input.replace("\\\\", "\\");
   return input;
 }
 
-export function findSolution(input: string): string {
-  return "x = Skibidi";
+export function findSolution(input: string): object {
+  return { solution: "x = Skibidi" };
 }

@@ -5,14 +5,10 @@ export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.backgroundCircle}>
-<<<<<<< Updated upstream
-        <Image source={require("../../assets/shield.png")} style={styles.logo} />
-=======
         <Image
           source={require("../../assets/images/shield.png")}
           style={styles.logo}
         />
->>>>>>> Stashed changes
       </View>
       <Text style={styles.welcomeText}>Welcome to</Text>
       <Text style={styles.appName1}>THE</Text>

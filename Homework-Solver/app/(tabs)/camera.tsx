@@ -151,6 +151,13 @@ export default function TabCameraScreen() {
             <Text style={styles.buttonText}>View Solution</Text>
           </TouchableOpacity>
         )}
+<<<<<<< Updated upstream
+=======
+        <Image
+          source={require("@/assets/images/bottom_ui_piece2.png")}
+          style={styles.bottomImage}
+        />
+>>>>>>> Stashed changes
       </View>
     </ScrollView>
   );
@@ -168,8 +175,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
+<<<<<<< Updated upstream
   title: {
     fontSize: 20,
+=======
+  topImage: {
+    width: "95%",
+    top: 50,
+    height: 320,
+    position: "absolute",
+  },
+  bottomImage: {
+    width: 100,
+    height: 20,
+    position: "absolute",
+    bottom: 92,
+  },
+  uploadTitle: {
+    fontSize: 30,
+    color: "#6ecef2",
+>>>>>>> Stashed changes
     fontWeight: "bold",
     marginBottom: 20,
   },

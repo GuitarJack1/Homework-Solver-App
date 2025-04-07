@@ -1,0 +1,227 @@
+{"config": {"adapter": ["xhr", "http", "fetch"], "allowAbsoluteUrls": true, "maxBodyLength": -1, "maxContentLength": -1, "method": "get", "timeout": 0, "transitional": {"clarifyTimeoutError": false, "forcedJSONParsing": true, "silentJSONParsing": true}, "url": "http://api.wolframalpha.com/v2/query?appid=RYV52H-HY55UXQ7YA&output=json&input=( 7plus9=x )", "xsrfCookieName": "XSRF-TOKEN", "xsrfHeaderName": "X-XSRF-TOKEN"}, "data": {"queryresult": {"datatypes": "", "error": false, "host": "https://www6b3.wolframalpha.com", "id": "MSP13720faed8d36ed47e1000041a17gh3gf12264f", "inputstring": "( 7plus9=x )", "numpods": 7, "parsetimedout": false, "parsetiming": 0.166, "pods": [Array], "recalculate": "", "related": "https://www6b3.wolframalpha.com/api/v1/relatedQueries.jsp?id=MSPa13820faed8d36ed47e1000066d1e0dihh454iih724077331436509559", "server": "2", "success": true, "timedout": "", "timedoutpods": "", "timing": 0.625, "version": "2.6"}}, "headers": {"connection": "Keep-Alive", "content-length": "5365", "content-type": "application/json", "date": "Wed, 02 Apr 2025 17:42:27 GMT", "keep-alive": "timeout=2, max=100", "server": "Apache-Coyote/1.1"}, "request": {"DONE": 4, "HEADERS_RECEIVED": 2, "LOADING": 3, "OPENED": 1, "UNSENT": 0, "_aborted": false, "_cachedResponse": undefined, "_hasError": false, "_headers": {"accept": "application/json, text/plain, */*"}, "_incrementalEvents": false, "_lowerCaseResponseHeaders": {"connection": "Keep-Alive", "content-length": "5365", "content-type": "application/json", "date": "Wed, 02 Apr 2025 17:42:27 GMT", "keep-alive": "timeout=2, max=100", "server": "Apache-Coyote/1.1"}, "_method": "GET", "_perfKey": "network_XMLHttpRequest_http://api.wolframalpha.com/v2/query?appid=RYV52H-HY55UXQ7YA&output=json&input=( 7plus9=x )", "_performanceLogger": {"_closed": false, "_extras": [Object], "_pointExtras": [Object], "_points": [Object], "_timespans": [Object]}, "_requestId": null, "_response": {
+        "queryresult":{
+                "success":true,
+                "error":false,
+                "numpods":7,
+                "datatypes":"",
+                "timedout":"",
+                "timedoutpods":"",
+                "timing":0.625,
+                "parsetiming":0.166,
+                "parsetimedout":false,
+                "recalculate":"",
+                "id":"MSP13720faed8d36ed47e1000041a17gh3gf12264f",
+                "host":"https:\\/\\/www6b3.wolframalpha.com",
+                "server":"2",
+                "related":"https:\\/\\/www6b3.wolframalpha.com\\/api\\/v1\\/relatedQueries.jsp?id=MSPa13820faed8d36ed47e1000066d1e0dihh454iih724077331436509559",
+                "version":"2.6",
+                "inputstring":"( 7plus9=x )",
+                "pods":[
+                        {
+                                "title":"Input",
+                                "scanner":"Identity",
+                                "id":"Input",
+                                "position":100,
+                                "error":false,
+                                "numsubpods":1,
+                                "subpods":[
+                                        {
+                                                "title":"",
+                                                "img":{
+                                                        "src":"https:\\/\\/www6b3.wolframalpha.com\\/Calculate\\/MSP\\/MSP13920faed8d36ed47e100004idfe2ac07b69c5b?MSPStoreType=image\\/gif&s=2",
+                                                        "alt":"7 + 9 = x",
+                                                        "title":"7 + 9 = x",
+                                                        "width":61,
+                                                        "height":19,
+                                                        "type":"Default",
+                                                        "themes":"1,2,3,4,5,6,7,8,9,10,11,12",
+                                                        "colorinvertable":true,
+                                                        "contenttype":"image\\/gif"
+                                                },
+                                                "plaintext":"7 + 9 = x"
+                                        }
+                                ],
+                                "expressiontypes":{
+                                        "name":"Default"
+                                }
+                        },
+                        {
+                                "title":"Result",
+                                "scanner":"Identity",
+                                "id":"Result",
+                                "position":200,
+                                "error":false,
+                                "numsubpods":1,
+                                "primary":true,
+                                "subpods":[
+                                        {
+                                                "title":"",
+                                                "primary":true,
+                                                "img":{
+                                                        "src":"https:\\/\\/www6b3.wolframalpha.com\\/Calculate\\/MSP\\/MSP14020faed8d36ed47e100000f8f4775e16ga343?MSPStoreType=image\\/gif&s=2",
+                                                        "alt":"16 = x",
+                                                        "title":"16 = x",
+                                                        "width":45,
+                                                        "height":19,
+                                                        "type":"Default",
+                                                        "themes":"1,2,3,4,5,6,7,8,9,10,11,12",
+                                                        "colorinvertable":true,
+                                                        "contenttype":"image\\/gif"
+                                                },
+                                                "plaintext":"16 = x"
+                                        }
+                                ],
+                                "expressiontypes":{
+                                        "name":"Default"
+                                }
+                        },
+                        {
+                                "title":"Plot",
+                                "scanner":"Plot",
+                                "id":"Plot",
+                                "position":300,
+                                "error":false,
+                                "numsubpods":1,
+                                "subpods":[
+                                        {
+                                                "title":"",
+                                                "img":{
+                                                        "src":"https:\\/\\/www6b3.wolframalpha.com\\/Calculate\\/MSP\\/MSP14120faed8d36ed47e100003i34icgeb556bhg1?MSPStoreType=image\\/gif&s=2",
+                                                        "alt":"Plot",
+                                                        "title":"",
+                                                        "width":220,
+                                                        "height":203,
+                                                        "type":"2DMathPlot_1",
+                                                        "themes":"1,2,3,4,5,6,7,8,9,10,11,12",
+                                                        "colorinvertable":true,
+                                                        "contenttype":"image\\/gif"
+                                                },
+                                                "plaintext":""
+                                        }
+                                ],
+                                "expressiontypes":{
+                                        "name":"Default"
+                                }
+                        },
+                        {
+                                "title":"Geometric figure",
+                                "scanner":"Geometry",
+                                "id":"GeometricFigure (ofBoundary)",
+                                "position":400,
+                                "error":false,
+                                "numsubpods":1,
+                                "subpods":[
+                                        {
+                                                "title":"",
+                                                "img":{
+                                                        "src":"https:\\/\\/www6b3.wolframalpha.com\\/Calculate\\/MSP\\/MSP14220faed8d36ed47e1000013bc3g0e3ecaf0da?MSPStoreType=image\\/gif&s=2",
+                                                        "alt":"line",
+                                                        "title":"line",
+                                                        "width":24,
+                                                        "height":19,
+                                                        "type":"Default",
+                                                        "themes":"1,2,3,4,5,6,7,8,9,10,11,12",
+                                                        "colorinvertable":true,
+                                                        "contenttype":"image\\/gif"
+                                                },
+                                                "plaintext":"line"
+                                        }
+                                ],
+                                "expressiontypes":{
+                                        "name":"Default"
+                                },
+                                "states":[
+                                        {
+                                                "name":"Properties",
+                                                "input":"GeometricFigure (ofBoundary)__Properties"
+                                        }
+                                ]
+                        },
+                        {
+                                "title":"Alternate form",
+                                "scanner":"Simplification",
+                                "id":"AlternateForm",
+                                "position":500,
+                                "error":false,
+                                "numsubpods":1,
+                                "subpods":[
+                                        {
+                                                "title":"",
+                                                "img":{
+                                                        "src":"https:\\/\\/www6b3.wolframalpha.com\\/Calculate\\/MSP\\/MSP14320faed8d36ed47e1000011ci47ff3c3abdh7?MSPStoreType=image\\/gif&s=2",
+                                                        "alt":"16 - x = 0",
+                                                        "title":"16 - x = 0",
+                                                        "width":69,
+                                                        "height":19,
+                                                        "type":"Default",
+                                                        "themes":"1,2,3,4,5,6,7,8,9,10,11,12",
+                                                        "colorinvertable":true,
+                                                        "contenttype":"image\\/gif"
+                                                },
+                                                "plaintext":"16 - x = 0"
+                                        }
+                                ],
+                                "expressiontypes":{
+                                        "name":"Default"
+                                }
+                        },
+                        {
+                                "title":"Number line",
+                                "scanner":"Reduce",
+                                "id":"NumberLine",
+                                "position":600,
+                                "error":false,
+                                "numsubpods":1,
+                                "subpods":[
+                                        {
+                                                "title":"",
+                                                "img":{
+                                                        "src":"https:\\/\\/www6b3.wolframalpha.com\\/Calculate\\/MSP\\/MSP14420faed8d36ed47e100004cd69g88506d9140?MSPStoreType=image\\/gif&s=2",
+                                                        "alt":"Number line",
+                                                        "title":"",
+                                                        "width":330,
+                                                        "height":60,
+                                                        "type":"2DMathPlot_1",
+                                                        "themes":"1,2,3,4,5,6,7,8,9,10,11,12",
+                                                        "colorinvertable":true,
+                                                        "contenttype":"image\\/gif"
+                                                },
+                                                "plaintext":""
+                                        }
+                                ],
+                                "expressiontypes":{
+                                        "name":"Default"
+                                }
+                        },
+                        {
+                                "title":"Solution",
+                                "scanner":"Reduce",
+                                "id":"Solution",
+                                "position":700,
+                                "error":false,
+                                "numsubpods":1,
+                                "primary":true,
+                                "subpods":[
+                                        {
+                                                "title":"",
+                                                "img":{
+                                                        "src":"https:\\/\\/www6b3.wolframalpha.com\\/Calculate\\/MSP\\/MSP14520faed8d36ed47e1000030c1edec076b137a?MSPStoreType=image\\/gif&s=2",
+                                                        "alt":"x = 16",
+                                                        "title":"x = 16",
+                                                        "width":550,
+                                                        "height":22,
+                                                        "type":"Default",
+                                                        "themes":"1,2,3,4,5,6,7,8,9,10,11,12",
+                                                        "colorinvertable":true,
+                                                        "contenttype":"image\\/gif"
+                                                },
+                                                "plaintext":"x = 16"
+                                        }
+                                ],
+                                "expressiontypes":{
+                                        "name":"Default"
+                                }
+                        }
+                ]
+        }
+}, "_responseType": "", "_sent": true, "_subscriptions": [], "_timedOut": false, "_trackingName": "unknown", "_url": "http://api.wolframalpha.com/v2/query?appid=RYV52H-HY55UXQ7YA&output=json&input=( 7plus9=x )", "readyState": 4, "responseHeaders": {"Connection": "Keep-Alive", "Content-Length": "5365", "Content-Type": "application/json", "Date": "Wed, 02 Apr 2025 17:42:27 GMT", "Keep-Alive": "timeout=2, max=100", "Server": "Apache-Coyote/1.1"}, "responseURL": "http://api.wolframalpha.com/v2/query?appid=RYV52H-HY55UXQ7YA&output=json&input=(%207plus9=x%20)", "status": 200, "timeout": 0, "upload": {}, "withCredentials": true}, "status": 200, "statusText": undefined}

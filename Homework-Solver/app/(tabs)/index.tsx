@@ -6,7 +6,7 @@ export default function TabOneScreen() {
     <View style={styles.container}>
       <View style={styles.backgroundCircle}>
         <Image
-          source={require("../../assets/shield.png")}
+          source={require("../../assets/images/shield.png")}
           style={styles.logo}
         />
       </View>
@@ -16,13 +16,12 @@ export default function TabOneScreen() {
       <Text style={styles.appName2}>SOLVER</Text>
       <Text style={styles.description}>
         Experience the ease of getting all your problems solved with built-in
-        image reading and manual input functions.
+        image reading and manual input functions!
       </Text>
-      <View style={styles.paginationContainer}>
-        <View style={[styles.paginationDot, styles.activeDot]} />
-        <View style={styles.paginationDot} />
-        <View style={styles.paginationDot} />
-      </View>
+      <Image
+          source={require("../../assets/images/bottom_ui_piece1.png")}
+          style={styles.bottomImage}
+        />
     </View>
   );
 }
@@ -43,9 +42,9 @@ const styles = StyleSheet.create({
     top: -40,
   },
   logo: {
-    width: 350,
-    height: 350,
-    borderRadius: 200,
+    width: 400,
+    height: 360,
+    //borderRadius: 200,
   },
   welcomeText: {
     fontSize: 30,
@@ -90,25 +89,10 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
     top: -40,
   },
-  paginationContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
-  },
-  paginationDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#4DA8DA",
-    marginHorizontal: 4,
-    opacity: 0.5,
-    top: -10,
-  },
-  activeDot: {
-    opacity: 1,
-    width: 40,
-    height: 10,
-    top: -10,
+  bottomImage: {
+    width: 100,
+    height: 20,
+    position: "absolute",
+    bottom: 92,
   },
 });

@@ -159,7 +159,7 @@ export default function TabCameraScreen() {
           </TouchableOpacity>
         )}
         <Image
-          source={require("@/assets/images/bottom_ui_piece.png")}
+          source={require("@/assets/images/bottom_ui_piece2.png")}
           style={styles.bottomImage}
         />
       </View>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   topImage: {
-    width: "90%",
+    width: "95%",
     top: 50,
     height: 320,
     position: "absolute",
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 20,
     position: "absolute",
-    bottom: 95,
+    bottom: 92,
   },
   uploadTitle: {
     fontSize: 30,

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function TabOneScreen() {
   return (
@@ -29,16 +29,13 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0F172A",
+    backgroundColor: "#0B1523",
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
   },
   backgroundCircle: {
-    width: 350,
+    width: 400,
     height: 350,
-    borderRadius: 200,
-    backgroundColor: "#1E293B",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 20,
@@ -50,13 +47,13 @@ const styles = StyleSheet.create({
     //borderRadius: 200,
   },
   welcomeText: {
-    fontSize: 30,  
+    fontSize: 30,
     fontWeight: "bold",
-    color: "#fff", 
+    color: "#fff",
     marginBottom: 10,
-    lineHeight: 36, 
-    fontFamily: "Montserrat", 
-    textShadowColor: "#000", 
+    lineHeight: 36,
+    fontFamily: "Montserrat",
+    textShadowColor: "#000",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 3,
     textAlign: "center",
@@ -67,7 +64,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#4DA8DA",
     textAlign: "center",
-    fontFamily: "Montserrat", 
+    fontFamily: "Montserrat",
     top: -40,
   },
   appName2: {
@@ -76,18 +73,18 @@ const styles = StyleSheet.create({
     color: "#4DA8DA",
     textAlign: "center",
     marginBottom: 20,
-    fontFamily: "Montserrat", 
+    fontFamily: "Montserrat",
     top: -40,
   },
   description: {
-    fontSize: 16, 
-    color: "#ccc", 
+    fontSize: 16,
+    color: "#ccc",
     textAlign: "center",
-    paddingHorizontal: 30, 
+    paddingHorizontal: 30,
     marginBottom: 20,
-    lineHeight: 24, 
-    fontFamily: "Montserrat", 
-    textShadowColor: "#000", 
+    lineHeight: 24,
+    fontFamily: "Montserrat",
+    textShadowColor: "#000",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 3,
     top: -40,

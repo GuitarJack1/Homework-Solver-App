@@ -7,7 +7,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
   Image,
+  Keyboard,
+  Platform,
   Dimensions,
 } from "react-native";
 
@@ -22,44 +26,50 @@ export default function TabManualScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={styles.overallContainer}>
-        <View style={styles.container}>
-          {/* Top Image - matching Camera screen style */}
-          <Image
-            source={require("@/assets/images/manual-input-graphic.png")}
-            style={[styles.topImage, { opacity: 1 }]}
-          />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.overallContainer}>
+            <View style={styles.container}>
+              {/* Top Image - matching Camera screen style */}
+              <Image
+                source={require("@/assets/images/manual-input-graphic.png")}
+                style={[styles.topImage, { opacity: 1 }]}
+              />
 
-          {/* Title */}
-          <Text style={styles.title}>Manual Input</Text>
+              {/* Title */}
+              <Text style={styles.title}>Manual Input</Text>
 
-          {/* Text Input */}
-          <TextInput
-            style={styles.textInput}
-            placeholder="Type/Paste here"
-            placeholderTextColor="#436B95" // new, more aesthetic color
-            value={inputText}
-            onChangeText={setInputText}
-            multiline
-            textAlignVertical="top"
-            scrollEnabled={false}
-          />
+              {/* Text Input */}
+              <TextInput
+                style={styles.textInput}
+                placeholder="Type/Paste here"
+                placeholderTextColor="#436B95" // new, more aesthetic color
+                value={inputText}
+                onChangeText={setInputText}
+                multiline
+                textAlignVertical="top"
+                scrollEnabled={false}
+                showSoftInputOnFocus={false}  
+              />
 
 
-          {/* Solve Button */}
-          <TouchableOpacity style={styles.button} onPress={handleViewSolution}>
-            <Text style={styles.buttonText}>SOLVE</Text>
-          </TouchableOpacity>
+              {/* Solve Button */}
+              <TouchableOpacity style={styles.button} onPress={handleViewSolution}>
+                <Text style={styles.buttonText}>SOLVE</Text>
+              </TouchableOpacity>
 
-          {/* Bottom Image like camera screen (optional) */}
-          <Image
-            source={require("@/assets/images/bottom_ui_piece3.png")}
-            style={styles.bottomImage}
-          />
-        </View>
-      </View>
-    </ScrollView>
+              {/* Bottom Image like camera screen (optional) */}
+              <Image
+                source={require("@/assets/images/bottom_ui_piece3.png")}
+                style={styles.bottomImage}
+              />
+            </View>
+          </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -84,17 +94,17 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   topImage: {
-    width: "92%",
-    top: 55,
+    width: "90%",
     height: 320,
-    position: "absolute",
+    alignSelf: "center",
+    top: -30,
   },
   title: {
     fontSize: 30,
     color: "#6ecef2",
     fontWeight: "bold",
     marginBottom: 25,
-    marginTop: 240, // same as uploadTitle in camera screen
+    marginTop: -30,
   },
   textInput: {
     width: 280,
@@ -114,7 +124,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 20,
     alignItems: "center",
-    marginTop: 10,
+    marginTop: -3,
   },
   buttonText: {
     color: "white",
@@ -125,6 +135,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 20,
     position: "absolute",
-    bottom: 92,
+    top:740,
   },
 });

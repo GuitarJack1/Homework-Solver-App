@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
+    fontFamily: "Montserrat",
     color: "#6ecef2",
     fontWeight: "bold",
     marginBottom: 25,
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
     borderColor: "#3fb6dd",
     borderRadius: 15,
     fontSize: 15,
+    fontFamily: "Montserrat",
     marginBottom: 20,
   },
   button: {
@@ -119,6 +121,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 20,
+    fontFamily: "Montserrat",
     fontWeight: "bold",
   },
   bottomImage: {

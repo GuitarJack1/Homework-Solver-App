@@ -28,6 +28,6 @@ export async function findSolution(input: string): Promise<findSolutionReturn> {
   const response = axiosResponse
     ? axiosResponse["data"]["queryresult"]
     : { success: "false", pods: [null] };
-
   return { success: response["success"], pods: response["pods"] };
 }
+

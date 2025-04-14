@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
   uploadTitle: {
     fontSize: 30,
     color: "#6ecef2",
+    fontFamily: "Montserrat",
     fontWeight: "bold",
     marginBottom: 25,
     marginTop: 240,
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    borderRadius: 15,
+    borderRadius: 10,
   },
   loader: {},
   button: {
@@ -229,6 +230,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
+    fontFamily: "Montserrat",
     fontSize: 20,
     fontWeight: "bold",
   },

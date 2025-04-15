@@ -1,4 +1,5 @@
 import CalendarScreen from "@/components/homeworkHelpScreens/Calendar";
+import Flashcards from "@/components/homeworkHelpScreens/Flashcards";
 import NotepadScreen from "@/components/homeworkHelpScreens/Notepad";
 import TimerScreen from "@/components/homeworkHelpScreens/Timer";
 import { Ionicons } from "@expo/vector-icons";
@@ -34,6 +35,11 @@ export default function TabHomeworkHelpScreen() {
       name: "Calendar",
       icon: "calendar-clear-sharp",
       content: <CalendarScreen />,
+    },
+    {
+      name: "Flashcards",
+      icon: "albums-sharp",
+      content: <Flashcards />,
     },
   ];
 

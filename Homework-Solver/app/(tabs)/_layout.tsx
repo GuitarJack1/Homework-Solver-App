@@ -27,6 +27,13 @@ const Layout = () => {
           headerShown: false,
         }}
       />
+      <Tabs.Screen
+        name="homeworkHelp"
+        options={{
+          tabBarLabel: "More",
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 };

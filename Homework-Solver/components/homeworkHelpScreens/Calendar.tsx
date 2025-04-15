@@ -12,6 +12,8 @@ import {
   View,
 } from "react-native";
 
+import { useVars } from "@/components/Context";
+
 const monthNames = [
   "January",
   "February",
@@ -45,7 +47,7 @@ export default function CalendarScreen() {
   const today = new Date();
   const [currMonth, setCurrMonth] = useState(today.getMonth());
   const [currYear, setCurrYear] = useState(today.getFullYear());
-  const [events, setEvents] = useState<Record<string, string[]>>({});
+  const { events, setEvents } = useVars();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [modalVisible, setModalVisible] = useState(false);

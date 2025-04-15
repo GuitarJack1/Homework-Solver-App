@@ -1,3 +1,4 @@
+import { useVars } from "@/components/Context";
 import React, { useState } from "react";
 import {
   FlatList,
@@ -16,7 +17,7 @@ interface Notepad {
 }
 
 export default function NotepadScreen() {
-  const [notepads, setNotepads] = useState<Notepad[]>([]);
+  const { notepads, setNotepads } = useVars();
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const createNewNotepad = () => {

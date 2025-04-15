@@ -9,10 +9,12 @@ import {
   View,
 } from "react-native";
 
+import { Audio } from "expo-av";
+
 type TimerMode = "custom" | "pomodoro";
 
-const POMODORO_WORK_DURATION = 10; // 25 minutes
-const POMODORO_BREAK_DURATION = 15; // 5 minutes
+const POMODORO_WORK_DURATION = 25 * 60; // 25 minutes
+const POMODORO_BREAK_DURATION = 5 * 60; // 5 minutes
 
 export default function TimerPage() {
   const [mode, setMode] = useState<TimerMode>("custom");
@@ -41,7 +43,18 @@ export default function TimerPage() {
     return () => clearInterval(interval.current!);
   }, [isRunning]);
 
-  const handleTimerEnd = () => {
+  const playSound = async () => {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require("@/assets/sounds/timerEnd.wav") // Replace with your actual sound file
+      );
+      await sound.playAsync();
+    } catch (error) {
+      console.error("Error playing sound:", error);
+    }
+  };
+  const handleTimerEnd = async () => {
+    await playSound(); // Play the sound when timer ends
     setIsRunning(false);
     if (mode === "pomodoro") {
       const nextIsBreak = !isPomodoroBreak;
@@ -51,7 +64,6 @@ export default function TimerPage() {
         ? POMODORO_BREAK_DURATION
         : POMODORO_WORK_DURATION;
       setSecondsLeft(nextTime);
-      //Alert.alert(nextIsBreak ? "Break Time!" : "Work Time!");
       setIsRunning(true);
     }
   };

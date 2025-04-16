@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     backgroundColor: "#0F1B2B",
-    paddingTop: 20,
   },
   scrollContainer: {
     flexGrow: 1,

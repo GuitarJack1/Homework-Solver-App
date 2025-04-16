@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 400,
     height: 360,
-    //borderRadius: 200,
   },
   welcomeText: {
     fontSize: 30,

@@ -34,6 +34,9 @@ const TabButton = ({
     manual: (props: any) => (
       <Ionicons name="pencil-sharp" size={Numbers.iconSize} {...props} />
     ),
+    homeworkHelp: (props: any) => (
+      <Ionicons name="document-sharp" size={Numbers.iconSize} {...props} />
+    ),
   };
 
   const scale = useSharedValue(0);

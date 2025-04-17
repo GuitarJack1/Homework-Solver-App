@@ -53,7 +53,7 @@ export default function CustomTabBar({
             position: "absolute",
             backgroundColor: Colors.animatedIconBG,
             borderRadius: 30,
-            marginHorizontal: "8%",
+            marginHorizontal: "3.3%",
             width: "18%",
             height: "150%",
             bottom: -8,

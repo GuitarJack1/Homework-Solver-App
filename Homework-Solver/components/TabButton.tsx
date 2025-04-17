@@ -104,7 +104,9 @@ const TabButton = ({
 const styles = StyleSheet.create({
   tab_bar_item: {
     flex: 1,
+    position: "relative",
     justifyContent: "center",
+    zIndex: 0,
     alignItems: "center",
     gap: Numbers.gapBetweenIconAndLabel, //Gap between words and icon
   },

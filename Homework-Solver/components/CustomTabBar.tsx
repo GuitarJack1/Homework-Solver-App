@@ -1,5 +1,6 @@
 import Colors from "@/constants/Colors";
 import Numbers from "@/constants/Numbers";
+import useKeyboardStore from "@/components/functions/useKeyboardStore";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
 import { LayoutChangeEvent, StyleSheet, View } from "react-native";
@@ -17,6 +18,10 @@ export default function CustomTabBar({
 }: BottomTabBarProps) {
   const [dimensions, setDimensions] = useState({ height: 20, width: 100 });
 
+  // Fetch the state for keyboard input focus
+  const isInputFocused = useKeyboardStore((state) => state.isInputFocused);
+
+  // Don't render the tab bar when input is focused, but ensure hooks are still called
   const buttonWidth = dimensions.width / state.routes.length;
 
   const onTabbarLayout = (e: LayoutChangeEvent) => {
@@ -33,6 +38,11 @@ export default function CustomTabBar({
       transform: [{ translateX: tabPositionX.value }],
     };
   });
+
+  // Only render the tab bar if input is not focused
+  if (isInputFocused) {
+    return null; // The hooks above are still executed before this return.
+  }
 
   return (
     <View onLayout={onTabbarLayout} style={styles.tab_bar}>
@@ -102,14 +112,13 @@ export default function CustomTabBar({
 const styles = StyleSheet.create({
   tab_bar: {
     position: "absolute",
-    bottom: "0%", //Bottom of the tab bar
+    bottom: "0%", // Bottom of the tab bar
     marginBottom: "4%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: Colors.tabBarBG,
-    marginHorizontal: Numbers.horizontalMargin, //Margin between tab bar sides and screen sides
-    //paddingVertical: 50, //Vertical padding between buttons and edge of the tab bar
-    //borderRadius: 35, //Rounds corners of the tab bar, smaller number equals more sharp
+    zIndex: 1,
+    marginHorizontal: Numbers.horizontalMargin, // Margin between tab bar sides and screen sides
   },
 });

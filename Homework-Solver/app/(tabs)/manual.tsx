@@ -2,7 +2,6 @@ import { View } from "react-native";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,11 +11,23 @@ import {
   Image,
   Keyboard,
   Platform,
-  Dimensions,
+  ScrollView,
 } from "react-native";
+
+import MathKeyboard from "@/components/MathKeyBoard";
+import useKeyboardStore from "@/components/functions/useKeyboardStore";
 
 export default function TabManualScreen() {
   const [inputText, setInputText] = useState<string>("");
+
+  const isInputFocused = useKeyboardStore((state) => state.isInputFocused);
+  const setIsInputFocused = useKeyboardStore(
+    (state) => state.setIsInputFocused
+  );
+
+  const handleSymbolPress = (symbol: string) => {
+    setInputText((prev) => prev + symbol);
+  };
 
   const handleViewSolution = () => {
     router.push({
@@ -27,48 +38,58 @@ export default function TabManualScreen() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.overallContainer}>
-            <View style={styles.container}>
-              {/* Top Image - matching Camera screen style */}
-              <Image
-                source={require("@/assets/images/manual-input-graphic.png")}
-                style={[styles.topImage, { opacity: 1 }]}
-              />
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+          setIsInputFocused(false);
+        }}
+      >
+        <View style={styles.overallContainer}>
+          <View style={styles.container}>
+            <Image
+              source={require("@/assets/images/manual-input-graphic.png")}
+              style={[styles.topImage, { opacity: 1 }]}
+            />
 
-              {/* Title */}
-              <Text style={styles.title}>Manual Input</Text>
+            <Text style={styles.title}>Manual Input</Text>
 
-              {/* Text Input */}
-              <TextInput
-                style={styles.textInput}
-                placeholder="Type/Paste here"
-                placeholderTextColor="#436B95" // new, more aesthetic color
-                value={inputText}
-                onChangeText={setInputText}
-                multiline
-                textAlignVertical="top"
-                scrollEnabled={false}
-                showSoftInputOnFocus={false}  
-              />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Type/Paste here"
+              placeholderTextColor="#436B95"
+              value={inputText}
+              onChangeText={setInputText}
+              multiline
+              textAlignVertical="top"
+              scrollEnabled={false}
+              showSoftInputOnFocus={false}
+              onFocus={() => setIsInputFocused(true)}
+              onBlur={() => setIsInputFocused(false)}
+            />
 
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleViewSolution}
+            >
+              <Text style={styles.buttonText}>SOLVE</Text>
+            </TouchableOpacity>
 
-              {/* Solve Button */}
-              <TouchableOpacity style={styles.button} onPress={handleViewSolution}>
-                <Text style={styles.buttonText}>SOLVE</Text>
-              </TouchableOpacity>
-
-              {/* Bottom Image like camera screen (optional) */}
-              <Image
-                source={require("@/assets/images/bottom_ui_piece3.png")}
-                style={styles.bottomImage}
-              />
-            </View>
+            <Image
+              source={require("@/assets/images/bottom_ui_piece3.png")}
+              style={styles.bottomImage}
+            />
           </View>
+        </View>
       </TouchableWithoutFeedback>
+
+      {isInputFocused && (
+        <View style={styles.keyboardWrapper}>
+          <MathKeyboard onPress={handleSymbolPress} />
+        </View>
+      )}
     </KeyboardAvoidingView>
   );
 }
@@ -135,6 +156,13 @@ const styles = StyleSheet.create({
     width: 100,
     height: 20,
     position: "absolute",
-    top:740,
+    top: 740,
+  },
+  keyboardWrapper: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 999,
   },
 });

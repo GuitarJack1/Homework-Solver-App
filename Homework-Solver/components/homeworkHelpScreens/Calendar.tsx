@@ -13,6 +13,7 @@ import {
 } from "react-native";
 
 import { useVars } from "@/components/Context";
+import React from "react";
 
 const monthNames = [
   "January",
@@ -43,19 +44,81 @@ const months = [
   { label: "December", value: 11 },
 ];
 
+const numOfUpcoming = 5;
+
 export default function CalendarScreen() {
   const today = new Date();
+  const todayString = `${today.getFullYear()}-${
+    today.getMonth() + 1
+  }-${today.getDate()}`;
   const [currMonth, setCurrMonth] = useState(today.getMonth());
   const [currYear, setCurrYear] = useState(today.getFullYear());
   const { events, setEvents } = useVars();
+  const [upcomingEvents, setUpComingEvents] = useState<string[]>(
+    new Array(numOfUpcoming)
+  );
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [monthSelectorVisible, setMonthSelectorVisible] = useState(false);
+
+  React.useEffect(() => {
+    populateUpcoming();
+  }, []);
+  React.useEffect(() => {
+    populateUpcoming();
+  }, [events]);
+
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   const daysInMonth = new Date(currYear, currMonth + 1, 0).getDate();
   const firstDay = new Date(currYear, currMonth, 1).getDay();
+
+  const compareDates = (dateA: string, dateB: string): number => {
+    const arrA = dateA.split("-");
+    const arrB = dateB.split("-");
+
+    if (parseInt(arrA[0]) == parseInt(arrB[0])) {
+      if (parseInt(arrA[1]) == parseInt(arrB[1])) {
+        if (parseInt(arrA[2]) == parseInt(arrB[2])) {
+          return 0;
+        } else {
+          return parseInt(arrA[2]) > parseInt(arrB[2]) ? 1 : -1;
+        }
+      } else {
+        return parseInt(arrA[1]) > parseInt(arrB[1]) ? 1 : -1;
+      }
+    } else {
+      return parseInt(arrA[0]) > parseInt(arrB[0]) ? 1 : -1;
+    }
+  };
+
+  const populateUpcoming = () => {
+    const sortedRecordArray = Object.entries(events).sort(
+      ([keyA]: [string, string[]], [keyB]: [string, string[]]) => {
+        return compareDates(keyA, keyB);
+      }
+    );
+
+    let currUpcomingIndex = 0;
+    let upcomingEventsCopy = new Array(numOfUpcoming);
+    sortedRecordArray.forEach((element, index, array) => {
+      if (compareDates(element[0], todayString) >= 0) {
+        element[1].forEach((dayEvent, index, arr) => {
+          if (currUpcomingIndex >= numOfUpcoming) {
+            return;
+          }
+          upcomingEventsCopy[currUpcomingIndex++] =
+            dayEvent + "  (" + element[0] + ")";
+        });
+        if (currUpcomingIndex >= numOfUpcoming) {
+          return;
+        }
+      }
+    });
+    setUpComingEvents(upcomingEventsCopy);
+    console.log(upcomingEventsCopy);
+  };
 
   const generateGrid = () => {
     const days: (string | null)[] = Array(firstDay).fill(null);
@@ -143,7 +206,6 @@ export default function CalendarScreen() {
     { length: 21 },
     (_, i) => today.getFullYear() - 10 + i
   );
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -193,6 +255,24 @@ export default function CalendarScreen() {
           }}
         />
       </Animated.View>
+
+      <View style={{ position: "absolute", top: 500, padding: 20 }}>
+        <Text
+          style={{
+            color: "white",
+            fontSize: 20,
+            fontWeight: "bold",
+            marginBottom: 10,
+          }}
+        >
+          Upcoming Events:
+        </Text>
+        {upcomingEvents.map((event, idx) => (
+          <View key={idx} style={{ marginTop: 5 }}>
+            <Text style={{ color: "white" }}>• {event}</Text>
+          </View>
+        ))}
+      </View>
 
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <View style={styles.modal}>

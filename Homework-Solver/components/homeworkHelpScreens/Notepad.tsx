@@ -31,13 +31,8 @@ export default function NotepadScreen() {
   };
 
   const deleteNotepad = () => {
-    for (let index = 0; index < notepads.length; index++) {
-      const element = notepads[index];
-      if (element.id == selectedId) {
-        notepads.splice(index, 1);
-        break;
-      }
-    }
+    const updatedNotepads = notepads.filter((n) => n.id !== selectedId);
+    setNotepads(updatedNotepads);
     setSelectedId(null);
   };
 
@@ -62,6 +57,7 @@ export default function NotepadScreen() {
     >
       <View style={notepadStyles.notepadContainer}>
         <Text style={notepadStyles.notepadHeader}>Notepads</Text>
+
         <TouchableOpacity
           style={notepadStyles.notepadButton}
           onPress={createNewNotepad}
@@ -75,39 +71,43 @@ export default function NotepadScreen() {
           <Text style={notepadStyles.notepadButtonText}>- Delete Notepad</Text>
         </TouchableOpacity>
 
-        <FlatList
-          data={notepads}
-          keyExtractor={(item) => item.id.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={notepadStyles.notepadList}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[
-                notepadStyles.notepadTab,
-                selectedId === item.id && notepadStyles.notepadSelectedTab,
-              ]}
-              onPress={() => setSelectedId(item.id)}
-            >
-              <Text numberOfLines={1} style={notepadStyles.notepadTabText}>
-                {item.title}
-              </Text>
-            </TouchableOpacity>
-          )}
-        />
+        <View style={notepadStyles.notepadTabContainer}>
+          <FlatList
+            data={notepads}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={notepadStyles.notepadList}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  notepadStyles.notepadTab,
+                  selectedId === item.id && notepadStyles.notepadSelectedTab,
+                ]}
+                onPress={() => setSelectedId(item.id)}
+              >
+                <Text numberOfLines={1} style={notepadStyles.notepadTabText}>
+                  {item.title}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
 
         {selectedNotepad && (
-          <View>
+          <View style={notepadStyles.notepadEditor}>
             <TextInput
               style={notepadStyles.notepadTitleInput}
               value={selectedNotepad.title}
               onChangeText={updateTitle}
               placeholder="Title"
+              placeholderTextColor="#B0C9E0"
             />
             <TextInput
               style={notepadStyles.notepadInput}
               multiline
               placeholder="Start typing..."
+              placeholderTextColor="#B0C9E0"
               value={selectedNotepad.content}
               onChangeText={updateContent}
             />
@@ -124,67 +124,92 @@ const notepadStyles = StyleSheet.create({
     paddingTop: 150,
     paddingHorizontal: 20,
     backgroundColor: "#0B1523",
-    paddingBottom: 250,
+    paddingBottom: 100,
   },
   notepadHeader: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "white",
+    color: "#4FC3F7",
   },
   notepadButton: {
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: "#0039A6",
+    padding: 12,
+    borderRadius: 12,
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 12,
   },
   deleteButton: {
-    backgroundColor: "#ff0000",
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: "#A62C3B",
+    padding: 12,
+    borderRadius: 12,
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 24,
   },
   notepadButtonText: {
     color: "#fff",
     fontSize: 16,
+    fontWeight: "600",
+  },
+  notepadTabContainer: {
+    marginBottom: 12,
   },
   notepadList: {
-    marginBottom: 10,
+    paddingTop: 15,
   },
   notepadTab: {
-    padding: 10,
-    backgroundColor: "#eee",
-    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#16212F",
+    borderRadius: 8,
     marginRight: 10,
-    maxWidth: 120,
+    maxWidth: 140,
+    borderColor: "#2A3B50",
+    borderWidth: 1,
   },
   notepadSelectedTab: {
-    backgroundColor: "#cce5ff",
+    backgroundColor: "#29ABE2", // Electric blue
   },
   notepadTabText: {
     fontSize: 14,
+    color: "#E0F7FA",
   },
   notepadScrollView: {
     flex: 1,
     width: "100%",
-    marginBottom: 100,
   },
   notepadTitleInput: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 10,
     padding: 10,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#122236", // Dark navy
     borderRadius: 10,
+    color: "#F0F8FF", // Pale blue
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#3BAFDA",
   },
   notepadInput: {
-    fontSize: 18,
+    fontSize: 16,
     textAlignVertical: "top",
     minHeight: 200,
-    padding: 10,
-    backgroundColor: "#f0f0f0",
+    padding: 12,
+    backgroundColor: "#122236",
     borderRadius: 10,
+    color: "#F0F8FF",
+    borderWidth: 1,
+    borderColor: "#3BAFDA",
+  },
+  notepadEditor: {
+    marginTop: 10,
+    backgroundColor: "#0E1D2C", // Subtle dark contrast
+    padding: 14,
+    borderRadius: 16,
+    shadowColor: "#3BAFDA",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 5,
+    gap: 10,
   },
 });

@@ -9,11 +9,20 @@ interface Notepad {
 }
 type Notepads = Notepad[];
 
+interface Flashcard {
+  id: number;
+  title: string;
+  content: string;
+}
+type Flashcards = Flashcard[];
+
 type ContextType = {
   events: Events;
   setEvents: React.Dispatch<React.SetStateAction<Events>>;
   notepads: Notepads;
   setNotepads: React.Dispatch<React.SetStateAction<Notepads>>;
+  flashcards: Flashcards;
+  setFlashcards: React.Dispatch<React.SetStateAction<Flashcards>>;
 };
 const Context = createContext<ContextType | undefined>(undefined);
 
@@ -22,13 +31,16 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [events, setEvents] = useState<Events>({});
   const [notepads, setNotepads] = useState<Notepad[]>([]);
+  const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
 
   return (
-    <Context.Provider value={{ events, setEvents, notepads, setNotepads }}>
+    <Context.Provider value={{ events, setEvents, notepads, setNotepads, flashcards, setFlashcards }}>
       {children}
     </Context.Provider>
   );
 };
+
+
 
 export const useVars = () => {
   const context = useContext(Context);

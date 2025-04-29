@@ -82,7 +82,6 @@ export default function FlashcardScreen(){
 
         <View style={styles.content}>{currentContent}</View>
       </View>
-      {currentScreen}
     </View>
   );
 }
@@ -90,34 +89,6 @@ export default function FlashcardScreen(){
 function FlashcardListScreen() {
   const { flashcards, setFlashcards } = useVars();
   const [selectedId, setSelectedId] = useState<number | null>(null);
-
-  const createNewFlashcard = () => {
-    const newFlashcard: Flashcard = {
-      id: Date.now(),
-      title: "",
-      content: "",
-    };
-    setFlashcards([newFlashcard, ...flashcards]);
-    setSelectedId(newFlashcard.id);
-  };
-
-  const deleteFlashcard = () => {
-    const updatedFlashcards = flashcards.filter((n) => n.id !== selectedId);
-    setFlashcards(updatedFlashcards);
-    setSelectedId(null);
-  };
-
-  const updateTitle = (text: string) => {
-    setFlashcards(
-      flashcards.map((n) => (n.id === selectedId ? { ...n, title: text } : n))
-    );
-  };
-
-  const updateContent = (text: string) => {
-    setFlashcards(
-      flashcards.map((n) => (n.id === selectedId ? { ...n, content: text } : n))
-    );
-  };
 
   const selectedFlashcard = flashcards.find((n) => n.id === selectedId);
 
@@ -128,19 +99,6 @@ function FlashcardListScreen() {
     >
       <View style={FlashcardStyles.FlashcardContainer}>
         <Text style={FlashcardStyles.FlashcardHeader}>Flashcards</Text>
-
-        <TouchableOpacity
-          style={FlashcardStyles.FlashcardButton}
-          onPress={createNewFlashcard}
-        >
-          <Text style={FlashcardStyles.FlashcardButtonText}>+ New Flashcard</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={FlashcardStyles.deleteButton}
-          onPress={deleteFlashcard}
-        >
-          <Text style={FlashcardStyles.FlashcardButtonText}>- Delete Flashcard</Text>
-        </TouchableOpacity>
 
         <View style={FlashcardStyles.FlashcardTabContainer}>
           <FlatList
@@ -166,22 +124,13 @@ function FlashcardListScreen() {
         </View>
 
         {selectedFlashcard && (
-          <View style={FlashcardStyles.FlashcardEditor}>
-            <TextInput
-              style={FlashcardStyles.FlashcardTitleInput}
-              value={selectedFlashcard.title}
-              onChangeText={updateTitle}
-              placeholder="Vocab Word"
-              placeholderTextColor="#B0C9E0"
-            />
-            <TextInput
-              style={FlashcardStyles.FlashcardInput}
-              multiline
-              placeholder="Definition"
-              placeholderTextColor="#B0C9E0"
-              value={selectedFlashcard.content}
-              onChangeText={updateContent}
-            />
+          <View style={FlashcardStyles.Flashcard}>
+            <Text style={FlashcardStyles.FlashcardTitle}>
+              {selectedFlashcard.title}
+            </Text>
+            <Text style={FlashcardStyles.FlashcardBody}>
+              {selectedFlashcard.content}
+            </Text>
           </View>
         )}
       </View>
@@ -384,6 +333,19 @@ const FlashcardStyles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 5,
     gap: 10,
+  },
+  Flashcard: {
+
+  },
+  FlashcardTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  FlashcardBody: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
 

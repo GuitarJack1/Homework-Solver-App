@@ -1,6 +1,6 @@
 import { useVars } from "@/components/Context";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import {
   FlatList,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 
@@ -20,9 +21,9 @@ interface Flashcard {
 export default function FlashcardScreen(){
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [currentContent, setCurrentContent] = useState<React.JSX.Element>(
-      <FlashcardEditScreen />
-    );
-    const [currentPageName, setPageName] = useState<string>("Edit");
+    <FlashcardEditScreen />
+  );
+  const [currentPageName, setPageName] = useState<string>("Edit");
   
   const helpScreens = [
     {
@@ -92,6 +93,12 @@ function FlashcardListScreen() {
 
   const selectedFlashcard = flashcards.find((n) => n.id === selectedId);
 
+  const [showFront, setShowFront] = useState(true); // true = title, false = content
+
+  const toggleFlashcard = () => {
+    setShowFront(prev => !prev);
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -99,6 +106,24 @@ function FlashcardListScreen() {
     >
       <View style={FlashcardStyles.FlashcardContainer}>
         <Text style={FlashcardStyles.FlashcardHeader}>Flashcards</Text>
+
+        <View style={FlashcardStyles.FlashcardTabContainer}>
+          <TouchableOpacity
+            style={FlashcardStyles.FlashcardTab}
+            
+          >
+            <Text>
+              Prev
+            </Text>
+          </TouchableOpacity><TouchableOpacity
+            style={FlashcardStyles.FlashcardTab}
+            
+          >
+            <Text>
+              Next
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         <View style={FlashcardStyles.FlashcardTabContainer}>
           <FlatList
@@ -124,14 +149,13 @@ function FlashcardListScreen() {
         </View>
 
         {selectedFlashcard && (
-          <View style={FlashcardStyles.Flashcard}>
-            <Text style={FlashcardStyles.FlashcardTitle}>
-              {selectedFlashcard.title}
-            </Text>
-            <Text style={FlashcardStyles.FlashcardBody}>
-              {selectedFlashcard.content}
-            </Text>
-          </View>
+          <TouchableOpacity onPress={toggleFlashcard}>
+            <View style={FlashcardStyles.Flashcard}>
+                <Text style={FlashcardStyles.FlashcardTitle}>
+                  {showFront ? selectedFlashcard.title : selectedFlashcard.content}
+                </Text>
+            </View>
+          </TouchableOpacity>
         )}
       </View>
     </ScrollView>
@@ -335,7 +359,16 @@ const FlashcardStyles = StyleSheet.create({
     gap: 10,
   },
   Flashcard: {
-
+    marginTop: 10,
+    backgroundColor: "#0E1D2C",
+    padding: 14,
+    borderRadius: 16,
+    shadowColor: "#3BAFDA",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 5,
+    gap: 10,
   },
   FlashcardTitle: {
     color: "#fff",

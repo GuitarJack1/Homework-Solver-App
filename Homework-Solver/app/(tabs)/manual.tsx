@@ -82,6 +82,7 @@ export default function TabManualScreen() {
               style={styles.bottomImage}
             />
           </View>
+          <View style={{ height: isInputFocused ? 100 : 0 }} />
         </View>
       </TouchableWithoutFeedback>
 
@@ -97,8 +98,11 @@ export default function TabManualScreen() {
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#0B1523",
   },
+
   overallContainer: {
     flexGrow: 1,
     backgroundColor: "#0B1523",

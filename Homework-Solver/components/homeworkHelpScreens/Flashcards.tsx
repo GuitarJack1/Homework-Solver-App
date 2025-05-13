@@ -28,12 +28,12 @@ export default function FlashcardScreen(){
   const helpScreens = [
     {
       name: "Edit",
-      icon: "document-text-sharp",
+      icon: "pencil-sharp",
       content: <FlashcardEditScreen />,
     },
     {
       name: "List",
-      icon: "timer-sharp",
+      icon: "albums-outline",
       content: <FlashcardListScreen />,
     },
   ];
@@ -45,7 +45,7 @@ export default function FlashcardScreen(){
           style={styles.menuButton}
           onPress={() => setMenuOpen(!menuOpen)}
         >
-          <Ionicons name="menu-sharp" size={30} color={"white"} />
+          <Ionicons name="ellipsis-horizontal-sharp" size={30} color={"white"} />
         </TouchableOpacity>
 
         {menuOpen && (
@@ -93,10 +93,30 @@ function FlashcardListScreen() {
 
   const selectedFlashcard = flashcards.find((n) => n.id === selectedId);
 
+  const [curIndex, setCurIndex] = useState<number>(0);
+
+
   const [showFront, setShowFront] = useState(true); // true = title, false = content
 
   const toggleFlashcard = () => {
     setShowFront(prev => !prev);
+  };
+  
+  let curFlashcard = flashcards[curIndex];
+
+  const prevFlashcard = () => {
+    if(curIndex > 0){
+      setCurIndex(curIndex - 1);
+      curFlashcard = flashcards[curIndex];
+      setShowFront(true);
+    }
+  };
+  const nextFlashcard = () => {
+    if(curIndex < flashcards.length - 1){
+      setCurIndex(curIndex + 1);
+      curFlashcard = flashcards[curIndex];
+      setShowFront(true);
+    }
   };
 
   return (
@@ -109,51 +129,33 @@ function FlashcardListScreen() {
 
         <View style={FlashcardStyles.FlashcardTabContainer}>
           <TouchableOpacity
-            style={FlashcardStyles.FlashcardTab}
-            
+            style={[
+              FlashcardStyles.FlashcardTabSwitch, FlashcardStyles.FlashcardTab, FlashcardStyles.FlashcardSelectedTab,
+            ]}
+            onPress={prevFlashcard}
           >
-            <Text>
+            <Text numberOfLines={1} style={FlashcardStyles.FlashcardTabText}>
               Prev
             </Text>
-          </TouchableOpacity><TouchableOpacity
-            style={FlashcardStyles.FlashcardTab}
-            
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              FlashcardStyles.FlashcardTabSwitch, FlashcardStyles.FlashcardTab, FlashcardStyles.FlashcardSelectedTab,
+            ]}
+            onPress={nextFlashcard}
           >
-            <Text>
+            <Text numberOfLines={1} style={FlashcardStyles.FlashcardTabText}>
               Next
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View style={FlashcardStyles.FlashcardTabContainer}>
-          <FlatList
-            data={flashcards}
-            keyExtractor={(item) => item.id.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={FlashcardStyles.FlashcardList}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={[
-                  FlashcardStyles.FlashcardTab,
-                  selectedId === item.id && FlashcardStyles.FlashcardSelectedTab,
-                ]}
-                onPress={() => setSelectedId(item.id)}
-              >
-                <Text numberOfLines={1} style={FlashcardStyles.FlashcardTabText}>
-                  {item.title}
-                </Text>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-
-        {selectedFlashcard && (
+        {curFlashcard && (
           <TouchableOpacity onPress={toggleFlashcard}>
             <View style={FlashcardStyles.Flashcard}>
-                <Text style={FlashcardStyles.FlashcardTitle}>
-                  {showFront ? selectedFlashcard.title : selectedFlashcard.content}
-                </Text>
+              <Text style={showFront ? FlashcardStyles.FlashcardTitle : FlashcardStyles.FlashcardBody}>
+                {showFront ? curFlashcard.title : curFlashcard.content}
+              </Text>
             </View>
           </TouchableOpacity>
         )}
@@ -172,7 +174,7 @@ function FlashcardEditScreen() {
       title: "",
       content: "",
     };
-    setFlashcards([newFlashcard, ...flashcards]);
+    setFlashcards([...flashcards, newFlashcard]);
     setSelectedId(newFlashcard.id);
   };
 
@@ -299,6 +301,7 @@ const FlashcardStyles = StyleSheet.create({
   },
   FlashcardTabContainer: {
     marginBottom: 12,
+    flexDirection: "row",
   },
   FlashcardList: {
     paddingTop: 15,
@@ -312,6 +315,9 @@ const FlashcardStyles = StyleSheet.create({
     maxWidth: 140,
     borderColor: "#2A3B50",
     borderWidth: 1,
+  },
+  FlashcardTabSwitch: {
+    width: "40%",
   },
   FlashcardSelectedTab: {
     backgroundColor: "#29ABE2", // Electric blue
@@ -359,6 +365,9 @@ const FlashcardStyles = StyleSheet.create({
     gap: 10,
   },
   Flashcard: {
+    minWidth: 200,
+    maxWidth: 200,
+    minHeight: 100,
     marginTop: 10,
     backgroundColor: "#0E1D2C",
     padding: 14,
@@ -372,13 +381,17 @@ const FlashcardStyles = StyleSheet.create({
   },
   FlashcardTitle: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "600",
+    textAlign: "center",
+    textAlignVertical: "center",
   },
   FlashcardBody: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "400",
+    textAlign: "center",
+    textAlignVertical: "bottom",
   },
 });
 
